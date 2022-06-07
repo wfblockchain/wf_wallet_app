@@ -58,7 +58,7 @@ export default function ListOfWallets(props) {
         setOpenSendFunds(true);
     }
 
-    const handleOpenViewHistory = () => {
+    const handleOpenViewHistory = (walletId) => {
         setWalletId(walletId)
         setOpenDetails(true);
     }
@@ -177,7 +177,9 @@ export default function ListOfWallets(props) {
                                     <TableCell>
                                         <Button variant="contained"
                                                 startIcon={<ArticleIcon />}
-                                                onClick={handleOpenViewHistory}>
+                                                onClick={() => {
+                                                    handleOpenViewHistory(item.id)
+                                                }}>
                                             History
                                         </Button>
                                     </TableCell>
@@ -221,9 +223,9 @@ export default function ListOfWallets(props) {
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Below are your past transactions
+                        Below are your past transactions for {walletId}
                     </Typography>
-                    <WalletDetails walletId={walletId}/>
+                    <WalletDetails coin={coin} walletId={walletId}/>
                 </Box>
             </Modal>
         </div>

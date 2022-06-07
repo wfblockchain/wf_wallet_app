@@ -21,6 +21,7 @@ import Section from "./Section";
 import { Link } from "../../util/router";
 import { useAuth } from "../../util/auth";
 import { useDarkMode } from "../../util/theme";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -66,7 +67,9 @@ function Navbar(props) {
               <Link to="/">
                 <img src={logo} alt="Logo" className={classes.logo} />
               </Link>
+
               <div className={classes.spacer} />
+
               <Hidden smUp={true} implementation="css">
                 <IconButton
                     onClick={() => {
