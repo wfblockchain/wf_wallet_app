@@ -1,0 +1,52 @@
+{
+  "name": "wf_wallet_app",
+  "version": "0.1.0",
+  "private": true,
+  "keywords": [
+    "wells fargo"
+  ],
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@material-ui/core": "4.12.3",
+    "@material-ui/icons": "4.11.2",
+    "@material-ui/lab": "4.0.0-alpha.60",
+    "@mui/icons-material": "^5.8.2",
+    "firebase": "9.1.0",
+    "history": "4.10.1",
+    "query-string": "6.13.8",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-dotenv": "^0.1.3",
+    "react-helmet": "6.1.0",
+    "react-hook-form": "6.15.1",
+    "react-query": "3.32.1",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "4.0.3",
+    "use-local-storage-state": "9.0.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@mui/material": "^5.8.2"
+  }
+}
