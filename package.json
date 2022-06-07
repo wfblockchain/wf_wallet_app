@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "scripts": {
+    "backend:build": "cd packages/api; node ./bin/www",
+    "frontend:build": "cd packages/frontend; npm run build",
+    "backend:start": "cd packages/api; npm run start",
+    "frontend:start": "cd packages/frontend; npm run start",
+    "start": "concurrently \"npm run frontend:start\" \"npm run backend:start\"",
+    "build": "npm run frontend:build"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1"
+  }
+}
