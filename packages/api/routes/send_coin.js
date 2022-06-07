@@ -9,33 +9,36 @@ router.post('/', async (req, res) => {
 
     console.log("sendings coins");
 
-    // Initialize bitgo sdk
-// Read the user authentication section to get your API access token
-    const bitgo = new BitGoJS.BitGo({
-        env: 'test',
-        accessToken: process.env.BITGO_ACCESS_TOKEN,
-    });
-    const coin = bitgo.coin('tbtc');
-    const walletID = '6296dfbea306140007dbbd807ea607b4';
-// Automatically parse JSON on any inbound requests
-    router.use(bodyParser.json());
+    var coin = req.body.coin
+    var walletId = req.body.coin
+    var amount = req.body.amount
+    var destAddress = req.body.amount
+    var password = req.body.password
 
-    const wallet = await coin.wallets().get({id: walletID})
+    const bitgo = new BitGoJS.BitGo({ env: 'test' });
 
-    let params = {
-        amount: 0.01 * 1e8,
-        address: '2NECVCnM2oSjiezRZprs6UtNcsimhhmSi65',
-        walletPassphrase: 'DeepDive0608',
-    };
-    wallet.send(params)
-        .then(function (transaction) {
-            // print transaction details
-            console.log(transaction)
-                .then(function () {
-                res.send(transaction);
-            })
-    })
+    const basecoin = bitgo.coin(coin);
+    accessToken = process.env.BITGO_ACCESS_TOKEN;
 
+    console.log(auth_token);
+
+    bitgo.authenticateWithAccessToken({ accessToken });
+
+    bitgo.coin(coin).wallets().get({ id : walletId })
+        .then(function(wallet) {
+
+            let params = {
+                amount: amount,
+                address: destAddress,
+                walletPassphrase: password,
+                sequenceId: "example"
+            };
+
+            wallet.send(params)
+                .then(function(transaction) {
+                    console.dir(transaction);
+                });
+        });
 });
 
 module.exports = router;
