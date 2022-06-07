@@ -21,6 +21,7 @@ import CreateWallet from "../components/Wallet/CreateWallet";
 import WalletDetails from "../components/Wallet/WalletDetails";
 
 function App(props) {
+  require('dotenv').config();
 
   return (
     <QueryClientProvider>

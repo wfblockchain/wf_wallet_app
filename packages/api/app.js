@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
-require('dotenv').config({path: './.env'});
+require('dotenv').config();
 
 // Swagger Documentation
 // Doc on Swagger: https://dev.to/kabartolo/how-to-document-an-express-api-with-swagger-ui-and-jsdoc-50do
@@ -21,6 +21,7 @@ var deleteWalletAPIRouter = require('./routes/delete_wallet');
 var verifyAddressAPIRouter = require('./routes/verify_address');
 var addressListAPIRouter = require('./routes/address_list');
 var sendCoinAPIRouter = require('./routes/send_coin');
+var transactionHistoryAPIRouter = require('./routes/transaction_history')
 
 var app = express();
 
@@ -64,6 +65,7 @@ app.use('/api/v1/delete_wallet', deleteWalletAPIRouter)
 app.use('/api/v1/verify_address', verifyAddressAPIRouter)
 app.use('/api/v1/address_list', addressListAPIRouter)
 app.use('/api/v1/send_coin', sendCoinAPIRouter)
+app.use('/api/v1/txn_history', transactionHistoryAPIRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -8,7 +8,7 @@ import {Typography} from "@material-ui/core";
 import CreateWallet from "./CreateWallet";
 import ListOfWallets from "./ListOfWallets";
 
-export default function BitGo() {
+export default function BitGo(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -35,6 +35,7 @@ export default function BitGo() {
                     <SendFunds/>
                 </CardContent>
             </Card>
+
 
         </div>
     )

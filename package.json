@@ -1,4 +1,6 @@
 {
+  "name": "wf_wallet_app",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "backend:build": "cd packages/api; node ./bin/www",

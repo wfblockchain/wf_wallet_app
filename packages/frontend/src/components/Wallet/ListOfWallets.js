@@ -18,8 +18,11 @@ import Button from "@mui/material/Button";
 import Modal from '@material-ui/core/Modal';
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import {Link} from "../../util/router";
-
+import {Link, useRouter} from "../../util/router";
+import WalletDetails from "./WalletDetails";
+import SendFunds from "./SendFunds";
+import SendIcon from '@mui/icons-material/Send';
+import ArticleIcon from '@mui/icons-material/Article';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -32,21 +35,34 @@ const style = {
     p: 4,
 };
 
-export default function ListOfWallets() {
+export default function ListOfWallets(props) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [wallets, setWallets] = useState([]);
     const [walletId, setWalletId] = useState('');
     const [selectedWallet, setSelectedWallet] = useState('');
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [openSendFunds, setOpenSendFunds] = React.useState(false);
+    const [openDetails, setOpenDetails] = React.useState(false);
+
+    const handleCloseSendFunds = () => setOpenSendFunds(false);
+    const handleCloseDetails = () => setOpenDetails(false);
 
     const [values, setValues] = useState([
         "tbtc",
         "teth"
     ]);
+
+    const handleOpenSendFunds = () => {
+        setWalletId(walletId)
+        setOpenSendFunds(true);
+    }
+
+    const handleOpenViewHistory = () => {
+        setWalletId(walletId)
+        setOpenDetails(true);
+    }
+
     const [coin, setCoin] = useState("tbtc");
 
     function handleChange(event) {
@@ -58,8 +74,7 @@ export default function ListOfWallets() {
         window.location.reload(false);
     }
 
-    //TODO: fix delete wallet function it is not taking in the new values selected
-    const deleteWallet = () => {
+    const deleteWallet = (walletId) => {
 
         console.log("deleting wallet " + walletId)
 
@@ -101,6 +116,7 @@ export default function ListOfWallets() {
 
     useEffect(() => {
         getWallets(coin)
+
     }, [])
 
     return (
@@ -139,7 +155,8 @@ export default function ListOfWallets() {
                                 <TableCell>Date Created</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Balance</TableCell>
-                                <TableCell>Manage</TableCell>
+                                <TableCell>Send Funds</TableCell>
+                                <TableCell>History</TableCell>
                                 <TableCell>Delete</TableCell>
                             </TableRow>
                         </TableHead>
@@ -152,16 +169,21 @@ export default function ListOfWallets() {
                                     <TableCell>{item.balance}</TableCell>
                                     <TableCell>
                                         <Button variant="contained"
-                                            component={Link} to="/wallet_details"
-                                         startIcon={<EditIcon />}>
-
+                                            startIcon={<SendIcon />}
+                                                onClick={handleOpenSendFunds}
+                                            > Send
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button variant="contained"
+                                                startIcon={<ArticleIcon />}
+                                                onClick={handleOpenViewHistory}>
+                                            History
                                         </Button>
                                     </TableCell>
                                     <TableCell>
                                         <Button variant="contained" onClick={() => {
-                                            setWalletId(item.id);
-                                            console.log("wallet id "+  walletId);
-                                            deleteWallet()
+                                            deleteWallet(item.id)
                                         }} startIcon={<DeleteIcon />}>
                                             Delete
                                         </Button>
@@ -171,8 +193,39 @@ export default function ListOfWallets() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-
             </Card>
+
+            <Modal
+                open={openSendFunds}
+                onClose={handleCloseSendFunds}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        Use this form to send your crypto.
+                    </Typography>
+                    <SendFunds/>
+                </Box>
+            </Modal>
+
+            <Modal
+                open={openDetails}
+                onClose={handleCloseDetails}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        Below are your past transactions
+                    </Typography>
+                    <WalletDetails walletId={walletId}/>
+                </Box>
+            </Modal>
         </div>
     )
 }

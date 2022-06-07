@@ -3,16 +3,38 @@ const router     = express.Router();
 const BitGoJS    = require('bitgo');
 const bodyParser = require('body-parser');
 
-
-// Send coins from provided 'walletId' to 'destinationAddress'
+/**
+ * @swagger
+ * /api/v1/send_coin/:
+ *   post:
+ *     description: Transfer money
+ *     parameters:
+ *     - name: coin
+ *       in: body
+ *     - name: walletId
+ *       in: body
+ *     - name: amount
+ *       in: body
+ *     - name: destAddress
+ *       in: body
+ *     - name: password
+ *       in: body
+ *       content:
+ *         application/json:
+ *     responses:
+ *       201:
+ *         description: Created
+ *         content:
+ *           application/json
+ */
 router.post('/', async (req, res) => {
 
     console.log("sendings coins");
 
     var coin = req.body.coin
-    var walletId = req.body.coin
+    var walletId = req.body.walletId
     var amount = req.body.amount
-    var destAddress = req.body.amount
+    var destAddress = req.body.destAddress
     var password = req.body.password
 
     const bitgo = new BitGoJS.BitGo({ env: 'test' });
@@ -20,7 +42,7 @@ router.post('/', async (req, res) => {
     const basecoin = bitgo.coin(coin);
     accessToken = process.env.BITGO_ACCESS_TOKEN;
 
-    console.log(auth_token);
+    console.log(walletId);
 
     bitgo.authenticateWithAccessToken({ accessToken });
 
@@ -38,6 +60,9 @@ router.post('/', async (req, res) => {
                 .then(function(transaction) {
                     console.dir(transaction);
                 });
+        })
+        .catch((error) => {
+            console.log(error)
         });
 });
 

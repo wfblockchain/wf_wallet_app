@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import {FormControl, InputLabel, Select} from "@material-ui/core";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function SendFunds() {
+export default function SendFunds(props) {
     const [pending, setPending] = useState(false);
 
     const [amount, setAmount] = React.useState('');
@@ -20,6 +20,7 @@ export default function SendFunds() {
     const [password, setPassword] = useState('');
     const [destAddress, setDestAddress] = useState('');
 
+    var wallet = props.walletId
     const coin = 'tbtc';
 
     const { handleSubmit, getValues, errors, sendFunds } = useForm();
