@@ -25,25 +25,31 @@ router.post('/', async (req, res) => {
 
     console.log("sendings coins");
 
-    var coin = req.body.coin
-    var walletId = req.body.walletId
-    var amount = req.body.amount + "* 1e8"
-    var destAddress = req.body.destAddress
-    var password = req.body.password
+    console.log(req.body);
+
+    var coin = req.body.coin;
+    var walletId = req.body.walletId;
+    var amount = req.body.amount.concat("* 1e8") ;
+    var destAddress = req.body.destAddress;
+    var password = req.body.password;
 
     const bitgo = new BitGoJS.BitGo({ env: 'test' });
 
     accessToken = process.env.BITGO_ACCESS_TOKEN;
 
-    console.log(walletId);
+    console.log("Parameters Passed In")
+    console.log("coin: " + coin);
+    console.log("walletId: " + walletId);
+    console.log("amount: " + amount.concat("* 1e8"));
+    console.log("address: " + destAddress);
+    console.log("password: " + password);
 
     bitgo.authenticateWithAccessToken({ accessToken });
-
 
     const data = {
         walletPassphrase: password,
         address: destAddress,
-        amount: 0.0001 * 1e8 // send 0.0001 bitcoins
+        amount: amount
     };
 
     bitgo.unlock({ otp: '0000000' }).then(function (unlockResponse) {

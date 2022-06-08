@@ -35,12 +35,8 @@ const style = {
 };
 
 export default function ListOfWallets(props) {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [wallets, setWallets] = useState([]);
     const [walletId, setWalletId] = useState('');
-    const [selectedWallet, setSelectedWallet] = useState('');
     const [openSendFunds, setOpenSendFunds] = React.useState(false);
     const [openDetails, setOpenDetails] = React.useState(false);
     const [coin, setCoin] = useState("tbtc");
@@ -208,7 +204,7 @@ export default function ListOfWallets(props) {
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         Use this form to send your crypto.
                     </Typography>
-                    <SendFunds/>
+                    <SendFunds coin={coin} walletId={walletId}/>
                 </Box>
             </Modal>
 
