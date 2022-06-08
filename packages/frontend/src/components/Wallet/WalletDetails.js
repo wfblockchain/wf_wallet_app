@@ -5,11 +5,11 @@ import React, {useEffect, useState} from "react";
 
 export default function WalletDetails({coin, walletId}, props) {
     const [data,setData]=useState([]);
+    const entryList = [];
 
     console.log("wallet id passed" + walletId)
     const [wallets, setWallets] = useState([]);
 
-    const [entries, setEntries] = useState([])
     let entry = ''
     const [transferHistory, setTransferHistory] = useState([])
 
@@ -29,9 +29,13 @@ export default function WalletDetails({coin, walletId}, props) {
                 return response.json();
             })
             .then(function(myJson) {
-                console.log(myJson.transfers);
                 setData(myJson.transfers)
-            });
+
+                data.forEach((entry) => {
+                    entryList.push(entry.address)
+                })
+
+            }).then(console.log(entryList))
     }
 
     useEffect(() => {
@@ -49,30 +53,26 @@ export default function WalletDetails({coin, walletId}, props) {
             <Container>
                 <Typography variant="h5">Transaction History</Typography>
 
-                    <TableContainer component={Paper}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Date</TableCell>
-                                    <TableCell>Address</TableCell>
-                                    <TableCell>Wallet Sent To</TableCell>
-                                    <TableCell>Amount</TableCell>
-                                </TableRow>
-                            </TableHead>
+                <TableContainer component={Paper}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Date</TableCell>
+                                <TableCell>Amount</TableCell>
+                            </TableRow>
+                        </TableHead>
 
-                            <TableBody>
-                                {
-                                    data && data.length>0 && data.map((item)=>
-                                <TableRow>
-                                    <TableCell>{item.date}</TableCell>
-                                    <TableCell>{item.address}</TableCell>
-                                    <TableCell>{item.value}</TableCell>
-                                    <TableCell>sdddd</TableCell>
-                                </TableRow>
-                                    )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                        <TableBody>
+                            {
+                                data && data.length>0 && data.map((item)=>
+                                    <TableRow>
+                                        <TableCell>{item.date}</TableCell>
+                                        <TableCell>{item.value}</TableCell>
+                                    </TableRow>
+                                )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
             </Container>
         </div>
