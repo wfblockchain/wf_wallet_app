@@ -11,7 +11,6 @@ import {
     FormControl, InputLabel, Select
 } from "@material-ui/core";
 import {Typography} from "@material-ui/core";
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
@@ -44,6 +43,7 @@ export default function ListOfWallets(props) {
     const [selectedWallet, setSelectedWallet] = useState('');
     const [openSendFunds, setOpenSendFunds] = React.useState(false);
     const [openDetails, setOpenDetails] = React.useState(false);
+    const [coin, setCoin] = useState("tbtc");
 
     const handleCloseSendFunds = () => setOpenSendFunds(false);
     const handleCloseDetails = () => setOpenDetails(false);
@@ -63,7 +63,6 @@ export default function ListOfWallets(props) {
         setOpenDetails(true);
     }
 
-    const [coin, setCoin] = useState("tbtc");
 
     function handleChange(event) {
         setCoin(event.target.value);

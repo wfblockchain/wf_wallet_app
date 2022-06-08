@@ -1,73 +1,79 @@
-import SendFunds from "./SendFunds";
 import Container from "@material-ui/core/Container";
 import {Card, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import React, {useEffect, useState} from "react";
-import Button from "@mui/material/Button";
-import SendIcon from "@mui/icons-material/Send";
-import ArticleIcon from "@mui/icons-material/Article";
-import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function WalletDetails({coin, walletId}) {
+export default function WalletDetails({coin, walletId}, props) {
+    const [data,setData]=useState([]);
 
     console.log("wallet id passed" + walletId)
+    const [wallets, setWallets] = useState([]);
 
-    const [entries, setEntries] = useState([[]])
+    const [entries, setEntries] = useState([])
+    let entry = ''
     const [transferHistory, setTransferHistory] = useState([])
 
-    function getTxnHistory(coin, walletId) {
-
-        var req_url = process.env.REACT_APP_API_SERVER_URL +"/txn_history" + "/coin=" + coin + "/wallet=" + walletId;
-
+    const getTxnHistory = (coin, walletId) => {
+        var req_url = process.env.REACT_APP_API_SERVER_URL + "/txn_history" + "/coin=" + coin + "/wallet=" + walletId;
         console.log(req_url);
 
-        fetch(req_url)
-            .then(response => {
-                return response.json()
+        fetch(req_url,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
             })
-            .then(data => {
-                console.log(data.transfers)
-                setTransferHistory(data.transfers)
-                //setEntries(transferHistory.entries)
-            }).then(() => {
-                setEntries( transferHistory => [...transferHistory, `${transferHistory.length}`]);
-        })
-
+            .then(function(response){
+                console.log(response)
+                return response.json();
+            })
+            .then(function(myJson) {
+                console.log(myJson.transfers);
+                setData(myJson.transfers)
+            });
     }
 
     useEffect(() => {
         getTxnHistory(coin, walletId)
-
     }, [])
 
     return(
         <div>
+            <div className="App">
+                {
+                    data && data.length>0 && data.map((item)=><p>{item.about}</p>)
+                }
+            </div>
+
             <Container>
                 <Typography variant="h5">Transaction History</Typography>
 
-                <TableContainer component={Paper}>
-                    <Table stickyHeader  aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Date</TableCell>
-                                <TableCell>Address</TableCell>
-                                <TableCell>Wallet Sent To</TableCell>
-                                <TableCell>Amount</TableCell>
-                            </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                            {entries.map((item) => (
+                    <TableContainer component={Paper}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
                                 <TableRow>
                                     <TableCell>Date</TableCell>
-                                    <TableCell>{item[0].address}</TableCell>
-                                    <TableCell>{item[0].wallet}</TableCell>
-                                    <TableCell>{item[0].amount}</TableCell>
+                                    <TableCell>Address</TableCell>
+                                    <TableCell>Wallet Sent To</TableCell>
+                                    <TableCell>Amount</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                            </TableHead>
+
+                            <TableBody>
+                                {
+                                    data && data.length>0 && data.map((item)=>
+                                <TableRow>
+                                    <TableCell>{item.date}</TableCell>
+                                    <TableCell>{item.address}</TableCell>
+                                    <TableCell>{item.value}</TableCell>
+                                    <TableCell>sdddd</TableCell>
+                                </TableRow>
+                                    )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
             </Container>
         </div>
     )
