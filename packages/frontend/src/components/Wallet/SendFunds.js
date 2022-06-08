@@ -180,7 +180,7 @@ export default function SendFunds(props) {
                 <Grid item={true} xs={12}>
                     <TextField
                         variant="outlined"
-                        type="number"
+                        type="text"
                         label="Amount"
                         name="amount"
                         fullWidth={true}
