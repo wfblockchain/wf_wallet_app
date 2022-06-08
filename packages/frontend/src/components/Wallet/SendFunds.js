@@ -9,7 +9,8 @@ import MenuItem from "@mui/material/MenuItem";
 
 export default function SendFunds({coin, walletId}, props) {
     const [pending, setPending] = useState(false);
-    const [amount, setAmount] = React.useState('');
+
+    const [amount, setAmount] = useState('');
     const [password, setPassword] = useState('');
     const [destAddress, setDestAddress] = useState('');
 

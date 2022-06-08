@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
 
     var coin = req.body.coin;
     var walletId = req.body.walletId;
-    var amount = req.body.amount.concat("* 1e8") ;
+    var amount = req.body.amount ;
     var destAddress = req.body.destAddress;
     var password = req.body.password;
 
@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
     console.log("Parameters Passed In")
     console.log("coin: " + coin);
     console.log("walletId: " + walletId);
-    console.log("amount: " + amount.concat("* 1e8"));
+    console.log("amount: " + amount);
     console.log("address: " + destAddress);
     console.log("password: " + password);
 
@@ -58,12 +58,14 @@ router.post('/', async (req, res) => {
 
     bitgo.coin(coin).wallets().get({ id: walletId })
         .then(function(wallet) {
+
             console.log("Balance is: " + (wallet.balance() / 1e8).toFixed(4));
 
             if(wallet.balance()<amount) {
                 console.log("Insufficient balance")
                 return "Insufficient balance"
             }
+
             return wallet.send(data);
         })
         .then(function (result) {
